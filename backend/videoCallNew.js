@@ -36,11 +36,13 @@ export class VideoCallManager {
 
     socket.on("leave-call", ({ roomId }) => {
       socket.to(roomId).emit("user-left", { userId: socket.id });
+      removeUser(roomId, socket.id);
       socket.leave(roomId);
     });
 
     socket.on("disconnecting", () => {
       for (const roomId of socket.rooms) {
+        if (roomId === socket.id) continue; 
         socket.to(roomId).emit("user-left", { userId: socket.id });
         removeUser(roomId, socket.id);
       }
