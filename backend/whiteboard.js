@@ -20,6 +20,10 @@ export class WhiteboardManager {
       socket.to(roomId).emit("whiteboardDraw", stroke);
     });
 
+    socket.on("whiteboardClear", ({ roomId }) => {
+      this.boards.set(roomId, []);
+      this.io.to(roomId).emit("whiteboardClear");
+    });
 
     socket.on("disconnect", () => {
     });
