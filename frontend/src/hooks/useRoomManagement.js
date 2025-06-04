@@ -10,42 +10,49 @@ export const useRoomManagement = () => {
   const [userName, setUserName] = useState("");
 
   const joinRoom = () => {
-    setJoined(true); 
-    socketService.joinRoom(roomId, userName);
-    storageService.saveRoomSession(roomId, userName);
-  };
-
-  const leaveRoom = () => {
-    socketService.leaveRoom(); 
-    setJoined(false);
-    setRoomId("");
-    setUserName("");
-  };
-
-  const createRoomId = () => {
-    try {
-      setRoomId(uuid());
-    } catch {
-      toast.error("Failed to create room"); 
-      setRoomId("random"); 
+    if (roomId && userName) {
+      socketService.joinRoom(roomId, userName);
+      setJoined(true);
+      storageService.saveRoomSession(roomId, userName);
     }
   };
 
+  const leaveRoom = () => {
+    socketService.leaveRoom();
+    setJoined(false);
+    setRoomId("");
+    setUserName("");
+    storageService.clearAllSessionData();
+  };
+
+  const createRoomId = () => {
+    const newRoomId = uuid();
+    setRoomId(newRoomId);
+    toast.success("New Room ID created!", { position: "top-center" });
+  };
+
   const restoreSession = () => {
-    const session = storageService.getRoomSession();
-    setRoomId(session.roomId); 
-    setUserName(session.userName);
-    setJoined(true);
-    socketService.joinRoom(session.roomId, session.userName);
+    const { roomId: savedRoomId, userName: savedUserName } = storageService.getRoomSession();
+    if (savedRoomId && savedUserName) {
+      setRoomId(savedRoomId);
+      setUserName(savedUserName);
+      setJoined(true);
+      socketService.joinRoom(savedRoomId, savedUserName);
+      return true;
+    }
+    return false;
   };
 
   return {
     joined,
+    setJoined,
     roomId,
+    setRoomId,
     userName,
+    setUserName,
     joinRoom,
     leaveRoom,
     createRoomId,
     restoreSession
   };
-};
+}; 
