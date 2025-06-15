@@ -1,0 +1,20 @@
+{
+  "name": "judgedesk-realtime-code-editor",
+  "version": "1.0.0",
+  "description": "A real-time collaborative code editor with chat, video call, and whiteboard features.",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "build": "cd frontend && npm install && npm run build",
+    "postinstall": "cd backend && npm install && cd ../frontend && npm install",
+    "postbuild": "cp -r frontend/dist/* backend/public/",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cpx": "^1.5.0"
+  }
+}
