@@ -7,7 +7,6 @@
     "start": "cd backend && npm start",
     "build": "cd frontend && npm install && npm run build",
     "postinstall": "cd backend && npm install && cd ../frontend && npm install",
-    "postbuild": "cp -r frontend/dist/* backend/public/",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
   },
   "keywords": [],
