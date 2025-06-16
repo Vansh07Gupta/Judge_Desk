@@ -1,5 +1,9 @@
 # 🧑‍💻 Judge Desk — Real-time Collaborative Code Editor
 
+## Live Demo
+
+Try the app live: [https://judgedesk.onrender.com/](https://judgedesk.onrender.com/)
+
 <div align="center">
 
 ![Judge Desk Banner](https://img.shields.io/badge/Judge%20Desk-Real--time%20Collaboration-blue?style=for-the-badge&logo=code&logoColor=white)
@@ -27,7 +31,6 @@ Bringing developers together in real-time collaboration
 - 🎥 *Peer-to-Peer Video Calling* — High-quality video communication using WebRTC
 - ✏ *Interactive Whiteboard* — Visual collaboration with synchronized drawing capabilities
 - 🚪 *Room Management* — Create and join development sessions with unique room IDs
-- 💾 *Session Persistence* — Automatic saving of room states and user preferences
 
 All powered by a clean React + Vite frontend and a robust Node.js backend with Socket.IO for real-time communication.
 
@@ -37,7 +40,6 @@ All powered by a clean React + Vite frontend and a robust Node.js backend with S
 
 ### 🔄 Real-time Synchronization
 - *Live Code Editing* — See changes as they happen across all connected clients
-- *Cursor Tracking* — Visual indicators showing where team members are working
 - *Conflict Resolution* — Smart handling of simultaneous edits
 
 ### 🎨 Visual Collaboration
@@ -48,11 +50,9 @@ All powered by a clean React + Vite frontend and a robust Node.js backend with S
 ### 🗣 Communication Tools
 - *Text Chat* — Quick messaging without leaving the coding environment
 - *Video Calling* — Face-to-face communication with automatic disconnect handling
-- *Screen Sharing* — Share your screen during collaborative sessions
 
 ### 🏠 Room Management
 - *Custom Room IDs* — Create memorable room names for your team
-- *Session Persistence* — Rejoin rooms automatically with saved preferences
 - *User Management* — See who's online and their current activities
 
 ---
@@ -67,7 +67,6 @@ All powered by a clean React + Vite frontend and a robust Node.js backend with S
 | *Backend* | ![Node.js](https://img.shields.io/badge/-Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/-Express-000000?style=flat&logo=express&logoColor=white) ![Socket.IO](https://img.shields.io/badge/-Socket.IO-010101?style=flat&logo=socketdotio&logoColor=white) |
 | *Real-time* | ![WebSockets](https://img.shields.io/badge/-WebSockets-010101?style=flat&logo=socketdotio&logoColor=white) |
 | *Video* | ![WebRTC](https://img.shields.io/badge/-WebRTC-FF6B6B?style=flat&logo=webrtc&logoColor=white) |
-| *Graphics* | ![Canvas API](https://img.shields.io/badge/-Canvas%20API-E34F26?style=flat&logo=html5&logoColor=white) |
 
 </div>
 
@@ -223,6 +222,43 @@ concurrently "cd backend && npm run dev" "cd frontend && npm run dev"
 
 ---
 
+## 🎯 Usage Examples
+
+### Creating a New Room
+
+javascript
+// Join or create a room
+const roomId = "my-dev-session";
+socket.emit('join-room', roomId);
+
+
+### Real-time Code Collaboration
+
+javascript
+// Send code changes
+socket.emit('code-change', {
+  roomId: currentRoom,
+  code: editorContent,
+  cursorPosition: cursor.position
+});
+
+
+### Whiteboard Drawing
+
+javascript
+// Send drawing data
+socket.emit('draw', {
+  roomId: currentRoom,
+  drawingData: {
+    x: mouseX,
+    y: mouseY,
+    tool: 'pen',
+    color: '#ff0000'
+  }
+});
+
+
+---
 
 ## 🔧 Configuration
 
@@ -304,7 +340,28 @@ We welcome contributions from the community! Here's how you can help:
 
 ---
 
+## 🧪 Testing
 
+### Running Tests
+
+bash
+# Backend tests
+cd backend
+npm test
+
+# Frontend tests
+cd frontend
+npm test
+
+
+### Test Coverage
+
+bash
+# Generate coverage report
+npm run test:coverage
+
+
+---
 
 ## 🔍 Troubleshooting
 
@@ -333,13 +390,22 @@ VITE_DEBUG=true npm run dev
 
 
 
+## 🔒 Security Considerations
+
+- **Input Validation** — All user inputs are sanitized
+- **Rate Limiting** — Protection against spam and DoS attacks
+- **CORS Configuration** — Proper cross-origin resource sharing setup
+- **WebRTC Security** — Secure peer-to-peer connections
+
+---
+
+
 ## 📞 Support
 
 ### Getting Help
-  📧 **Email**: [vanshgupta2790@gmail.com](vanshgupta2790@gmail.com)
+- 📧 **Email**: [vanshgupta2790@gmail.com](vanshgupta2790@gmail.com)
 - 📧 **Email**: [aadijain558@gmail.com](aadijain558@gmail.com)
-  
-
+- 🐛 **Issues**: [GitHub Issues](https://github.com/AadiJain558/JudgeDesk/issues)
 
 ### Community
 
@@ -354,7 +420,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 MIT License
 
-Copyright (c) 2024 Judge Desk
+Copyright (c) 2025 Judge Desk
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
