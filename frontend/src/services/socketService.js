@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 class SocketService {
   constructor() {
-    this.socket = io("http://localhost:5000");
+    this.socket = io();
   }
 
   getSocket() {
