@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Editor from "@monaco-editor/react";
 import storageService from '../services/storageService';
-
-// Mock Monaco Editor for demo
-const Editor = ({ height, defaultLanguage, language, value, onChange, theme, options }) => {
-  return (
-    <div
-      style={{ height }}
-      className="bg-gray-900 text-green-400 p-4 font-mono text-sm rounded-xl border border-gray-800 overflow-auto"
-    >
-      <div className="mb-2 text-gray-500">// {language} code editor</div>
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full h-full bg-transparent text-green-400 resize-none outline-none"
-        style={{ minHeight: "400px" }}
-        placeholder={`Write your ${language} code here...`}
-      />
-    </div>
-  );
-};
 
 const CodeEditor = ({
   socket,
@@ -36,7 +18,6 @@ const CodeEditor = ({
   const [isExecuting, setIsExecuting] = useState(false);
 
   useEffect(() => {
-    // Restore code, language, input, output from sessionStorage
     const savedCode = storageService.getCode();
     if (savedCode) setCode(savedCode);
     const savedLanguage = storageService.getLanguage();
@@ -128,6 +109,28 @@ const CodeEditor = ({
     cpp: "⚡",
   };
 
+  // Monaco Editor options
+  const editorOptions = {
+    minimap: { enabled: false },
+    fontSize: 14,
+    fontFamily: "'Fira Code', 'Monaco', 'Consolas', monospace",
+    lineNumbers: "on",
+    roundedSelection: false,
+    scrollBeyondLastLine: false,
+    readOnly: false,
+    automaticLayout: true,
+    wordWrap: "on",
+    theme: "vs-dark",
+    cursorBlinking: "smooth",
+    cursorSmoothCaretAnimation: "on",
+    smoothScrolling: true,
+    bracketPairColorization: { enabled: true },
+    guides: {
+      bracketPairs: true,
+      indentation: true,
+    },
+  };
+
   return (
     <div className="flex flex-col gap-8 p-8 bg-gray-950 min-h-screen">
       {/* Code Editor Panel */}
@@ -174,15 +177,23 @@ const CodeEditor = ({
             </button>
           </div>
         </div>
-        <Editor
-          height="400px"
-          defaultLanguage={language}
-          language={language}
-          value={code}
-          onChange={handleCodeChange}
-          theme="vs-dark"
-          options={{ minimap: { enabled: false }, fontSize: 14 }}
-        />
+        <div className="border border-gray-700 rounded-xl overflow-hidden">
+          <Editor
+            height="400px"
+            defaultLanguage={language}
+            language={language}
+            value={code}
+            onChange={handleCodeChange}
+            theme="vs-dark"
+            options={editorOptions}
+            loading={
+              <div className="flex items-center justify-center h-full bg-gray-900 text-gray-400">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <span className="ml-2">Loading editor...</span>
+              </div>
+            }
+          />
+        </div>
       </div>
       {/* Input Section */}
       <div className="bg-gray-900 rounded-2xl shadow-lg p-6 mb-4">
